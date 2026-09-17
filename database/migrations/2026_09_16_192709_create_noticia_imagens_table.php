@@ -18,6 +18,7 @@ return new class extends Migration
             $table->string('titulo')->nullable();
             $table->string('texto_alternativo')->nullable();
             $table->unsignedInteger('orden')->default(0);
+            $table->tinyInteger('activo')->default(1);
             $table->timestamps();
         });
     }

@@ -6,6 +6,7 @@ use App\Models\Entidad;
 use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -16,45 +17,53 @@ class DatabaseSeeder extends Seeder
      */
     public function run(): void
     {
-        // User::factory(10)->create();
+        // $this->call(RoleSeeder::class);
 
-        // User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        Entidad::updateOrCreate(
-            [
-                'id' => 1,
-            ],
-            [
-                'nombre' => 'Nombre de la Escuela',
-                'lema' => 'Educando para construir un futuro mejor',
+        // User::firstOrCreate([
+        //     'name' => 'Admin',
+        //     'lastname' => 'Admin',
+        //     'username' => 'admin',
+        //     'email' => 'admin@dev',
+        //     'password' => Hash::make('admin123456'),
+        // ])->assignRole('admin');
 
-                'descripcion' => 'Institución educativa comprometida con la formación integral de sus estudiantes, promoviendo el conocimiento, los valores y la participación de toda la comunidad educativa.',
+        $this->call([
+            TagSeeder::class,
+        ]);
 
-                'mision' => 'Brindar una educación de calidad que contribuya al desarrollo académico, personal y social de nuestros estudiantes, fortaleciendo los valores, la responsabilidad y el compromiso con la comunidad.',
+        // Entidad::updateOrCreate(
+        //     [
+        //         'id' => 1,
+        //     ],
+        //     [
+        //         'nombre' => 'Nombre de la Escuela',
+        //         'lema' => 'Educando para construir un futuro mejor',
 
-                'vision' => 'Ser una institución educativa reconocida por su excelencia académica, innovación y formación integral, preparando estudiantes capaces de enfrentar los desafíos del futuro.',
+        //         'descripcion' => 'Institución educativa comprometida con la formación integral de sus estudiantes, promoviendo el conocimiento, los valores y la participación de toda la comunidad educativa.',
 
-                'email' => 'contacto@escuela.edu.py',
-                'celular' => '0981 000 000',
-                'whatsapp' => '595981000000',
-                'direccion' => 'Asunción, Paraguay',
+        //         'mision' => 'Brindar una educación de calidad que contribuya al desarrollo académico, personal y social de nuestros estudiantes, fortaleciendo los valores, la responsabilidad y el compromiso con la comunidad.',
 
-                'instagram' => null,
-                'facebook' => null,
-                'x_url' => null,
-                'youtube' => null,
-                'tiktok' => null,
-                'sitio_web' => null,
-                'mapa_url' => null,
+        //         'vision' => 'Ser una institución educativa reconocida por su excelencia académica, innovación y formación integral, preparando estudiantes capaces de enfrentar los desafíos del futuro.',
 
-                'logo' => null,
-                'favicon' => null,
-                'imagen_portada' => null,
+        //         'email' => 'contacto@escuela.edu.py',
+        //         'celular' => '0981 000 000',
+        //         'whatsapp' => '595981000000',
+        //         'direccion' => 'Asunción, Paraguay',
 
-                'activo' => true,
-            ]
-        );
+        //         'instagram' => null,
+        //         'facebook' => null,
+        //         'x_url' => null,
+        //         'youtube' => null,
+        //         'tiktok' => null,
+        //         'sitio_web' => null,
+        //         'mapa_url' => null,
+
+        //         'logo' => null,
+        //         'favicon' => null,
+        //         'imagen_portada' => null,
+
+        //         'activo' => true,
+        //     ]
+        // );
     }
 }

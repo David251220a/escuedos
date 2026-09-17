@@ -32,7 +32,7 @@
         rel="stylesheet"
     >
 
-    @stack('styles')
+    @yield('styles')
 </head>
 
 <body>
@@ -140,7 +140,7 @@
                         @auth
                             <a
                                 class="btn btn-acceso"
-                                href="{{ url('/home') }}"
+                                href="{{ route('home') }}"
                             >
                                 <i class="bi bi-speedometer2"></i>
                                 Panel
@@ -323,9 +323,8 @@
     </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-@stack('scripts')
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/js/bootstrap.bundle.min.js"></script>
+@yield('scripts')
 
 </body>
 </html>

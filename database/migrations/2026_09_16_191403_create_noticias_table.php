@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('estado', 20)->default('BORRADOR');
             $table->string('tipo_presentacion', 30)->default('NORMAL');
             $table->dateTime('fecha_publicacion')->nullable();
+            $table->tinyInteger('activo')->default(1);
             $table->timestamps();
         });
     }

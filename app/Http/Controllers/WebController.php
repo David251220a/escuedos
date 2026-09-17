@@ -9,24 +9,16 @@ use Illuminate\Http\Request;
 
 class WebController extends Controller
 {
+
     public function index()
     {
         $entidad = Entidad::where('activo', true)->first();
-
-        $noticiasCarrusel = Noticia::with('tags')
-        ->where('estado', 'PUBLICADA')
-        ->where('mostrar_carrusel', true)
-        ->whereNotNull('fecha_publicacion')
-        ->where('fecha_publicacion', '<=', now())
-        ->orderBy('orden_carrusel')
-        ->latest('fecha_publicacion')
-        ->get();
 
         $ultimasNoticias = Noticia::with('tags')
         ->where('estado', 'PUBLICADA')
         ->whereNotNull('fecha_publicacion')
         ->where('fecha_publicacion', '<=', now())
-        ->latest('fecha_publicacion')
+        ->orderByDesc('fecha_publicacion')
         ->take(6)
         ->get();
 
@@ -36,12 +28,7 @@ class WebController extends Controller
         ->take(10)
         ->get();
 
-        return view('welcome', compact(
-            'entidad',
-            'noticiasCarrusel',
-            'ultimasNoticias',
-            'docentes'
-        ));
+        return view('welcome', compact('entidad','ultimasNoticias','docentes'));
     }
 
     public function institucional()
@@ -65,7 +52,30 @@ class WebController extends Controller
 
     public function noticia(Noticia $noticia)
     {
-        $entidad = Entidad::where('activo', true)->first();
-        return view('web.noticia', compact('entidad', 'noticia'));
-    }
+        /*
+        | Los visitantes solamente pueden ver noticias publicadas.
+        | El administrador autenticado también puede previsualizar borradores.
+        */
+        if ($noticia->estado !== 'PUBLICADA' && !auth()->check()) {
+            abort(404);
+        }
+
+        if (
+            $noticia->estado === 'PUBLICADA' &&
+            $noticia->fecha_publicacion &&
+            $noticia->fecha_publicacion->isFuture() && !auth()->check()
+        ) {
+            abort(404);
+        }
+
+        $noticia->load([
+            'user',
+            'tags',
+            'imagenes' => function ($query) {
+                $query->where('activo', 1)->orderBy('orden');
+            },
+        ]);
+
+        return view('web.noticia', compact('noticia'));
+}
 }
